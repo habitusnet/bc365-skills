@@ -78,6 +78,15 @@ Always call `get_schema` first when the user asks about a field you haven't seen
 mcp__bc-data__list_items(entity="generalLedgerEntries", filter="postingDate gt 2024-01-01", orderby="postingDate desc", top=200)
 ```
 
+### Expand sub-resources (line items, dimensions)
+BC order/invoice headers do not include lines by default. Use `expand` to include them:
+```
+mcp__bc-data__list_items(entity="salesOrders", filter="number eq 'SO-0001'", expand="salesOrderLines")
+mcp__bc-data__list_items(entity="purchaseOrders", filter="number eq 'PO-0001'", expand="purchaseOrderLines")
+mcp__bc-data__list_items(entity="salesInvoices", expand="salesInvoiceLines")
+```
+Without `expand`, line items are absent from the response — this is the most common reason users think the data is incomplete.
+
 ### Paginate large result sets
 If the response contains `@odata.nextLink`, call `list_items` again with a `skip` offset:
 ```
