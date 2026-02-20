@@ -22,4 +22,20 @@ claude plugin install habitusnet/bc365-skills
 
 ## Setup
 
-Run `bc365 onboard` first to generate `.mcp.json` with the MCP server configuration.
+1. Install the [bc365 CLI](https://www.npmjs.com/package/@habitusnet/bc365):
+   ```bash
+   npm install -g @habitusnet/bc365
+   ```
+
+2. Authenticate and generate `.mcp.json` in your project root:
+   ```bash
+   bc365 onboard
+   ```
+   This creates `.mcp.json` with `bc-data` and `bc-admin` MCP server configuration.
+
+3. Install these skills:
+   ```bash
+   claude plugin install habitusnet/bc365-skills
+   ```
+
+The skills use the MCP servers configured in `.mcp.json`. Both must be reachable for the skills to work. See the [mcp-d365-BC repository](https://github.com/habitusnet/mcp-d365-BC) for full documentation.

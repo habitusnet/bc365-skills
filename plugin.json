@@ -2,9 +2,23 @@
   "name": "bc365-skills",
   "version": "1.0.0",
   "description": "Claude Code skills for Microsoft Dynamics 365 Business Central — query data, manage environments, and diagnose errors using the bc365 MCP servers.",
+  "author": "habitusnet",
+  "repository": "https://github.com/habitusnet/bc365-skills",
   "skills": [
-    { "name": "bc-query",    "path": "skills/bc-query" },
-    { "name": "bc-admin",    "path": "skills/bc-admin" },
-    { "name": "bc-diagnose", "path": "skills/bc-diagnose" }
+    {
+      "name": "bc-query",
+      "path": "skills/bc-query",
+      "description": "Query and update BC data (customers, items, orders, G/L entries) via the bc-data MCP server"
+    },
+    {
+      "name": "bc-admin",
+      "path": "skills/bc-admin",
+      "description": "Manage environments, companies, apps, feature flags, and sessions via the bc-admin MCP server"
+    },
+    {
+      "name": "bc-diagnose",
+      "path": "skills/bc-diagnose",
+      "description": "Interpret BC HTTP and OData error messages and suggest specific fixes"
+    }
   ]
 }
