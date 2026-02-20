@@ -1,0 +1,45 @@
+name: Sync skills to mcp-d365-BC
+
+on:
+  push:
+    branches: [main]
+    paths: ['skills/**']
+
+jobs:
+  sync:
+    name: Open PR on mcp-d365-BC
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync skills via PR
+        env:
+          GH_TOKEN: ${{ secrets.BC365_SYNC_TOKEN }}
+        run: |
+          # Clone target repo
+          git clone https://x-access-token:${GH_TOKEN}@github.com/habitusnet/mcp-d365-BC.git /tmp/mcp-d365-BC
+          cd /tmp/mcp-d365-BC
+
+          BRANCH="chore/sync-skills-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH"
+
+          # Copy skills
+          mkdir -p skills
+          cp -r $GITHUB_WORKSPACE/skills/. skills/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add skills/
+          git diff --cached --quiet && echo "No changes" && exit 0
+
+          git commit -m "chore: sync skills from bc365-skills"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "chore: sync skills from bc365-skills" \
+            --body "Automated sync of updated skill files from habitusnet/bc365-skills." \
+            --base main \
+            --head "$BRANCH" \
+            --repo habitusnet/mcp-d365-BC
